@@ -71,17 +71,17 @@ First, run `askai` with the `--configure` flag set.
 $ askai --configure
 ```
 
-Upon doing this, an interactive setup session will be initiated.  
+Upon doing this, an interactive setup session will be initiated.\
 Input the following items:
 
 - OpenAI API Key: API key created on [the OpenAI platform](https://platform.openai.com).
 - Model: The chat completion model to use. (Available: `gpt-4`, `gpt-4-0613`, `gpt-4-32k`, `gpt-4-32k-0613`, `gpt-3.5-turbo`, `gpt-3.5-turbo-0613`, `gpt-3.5-turbo-16k`, `gpt-3.5-turbo-16k-0613`)
 
-Once the setup is completed, a configuration file named `.askai` will be created.  
+Once the setup is completed, a configuration file named `.askai` will be created.\
 Now, you are all set.
 
-> [!NOTE]
-> If you run `askai --configure` with the `--global` flag set, the configuration file will be created as `$HOME/.askai`.  
+> \[!NOTE\]
+> If you run `askai --configure` with the `--global` flag set, the configuration file will be created as `$HOME/.askai`.\
 > This file is referred to when executing `askai`, if there is no `.askai` in the current directory.
 
 ### Ask a question to AI
@@ -116,7 +116,7 @@ $ echo 'QUESTION' | askai
 $ askai < question.txt
 ```
 
-You can pass both input from stdin and arguments at the same time.  
+You can pass both input from stdin and arguments at the same time.\
 By utilizing this, for example, you can also summarize the contents of a specific file.
 
 ```console
@@ -124,6 +124,53 @@ $ cat README.md | askai 'Please summarize this content'
 ```
 
 ![](./assets/summarize.gif)
+
+## Adding System Messages
+
+You can now specify system messages by using a special syntax starting with `@`. These system messages trigger specific behaviors in the AI, allowing for more dynamic and flexible interactions. For example, you can use `@Translate` to instruct the AI to translate the input text.
+
+### Usage
+
+When interacting with the AI, you can prepend your message with a system tag to modify its behavior.
+
+You need to add system_messages into .askai configuration file.
+
+```
+api_key: sk-xxx
+model: gpt-4o
+messages: 
+system_messages:
+  "@Default":
+    content: ""
+    usage: "Clear a System role"
+
+  "@Translate":
+    content: "Translate the input text to the target language (English or Japanese)."
+    usage: "Translation English to Japanese or Japanese to English"
+
+  "@Summarize":
+    content: "Summarize the following text in a concise manner."
+    usage: "Generate a summery"
+```
+
+Then you can use following System message
+
+- `@Default`: Clear the System role.
+- `@Translate`: Translates the input text from English to Japanese or vice versa, depending on the language of the input.
+- `@Summarize`: Summarizes the input text concisely.
+
+### Example
+
+To translate a sentence from English to Japanese, simply use the `@Translate` tag:
+
+```
+./askai -i  @Translate "What's today's weather?"
+ You
+What's today's weather?
+
+ AI (@Translate)
+今日の天気はどうですか？
+```
 
 ## LICENSE
 

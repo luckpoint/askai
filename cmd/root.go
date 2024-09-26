@@ -35,10 +35,11 @@ var rootCmd = &cobra.Command{
 		}
 
 		uicfg := &ui.Config{
-			APIKey:      cfg.APIKey,
-			Model:       cfg.Model,
-			Interactive: flagInteractive,
-			Messages:    cfg.Messages.OpenAI(),
+			APIKey:         cfg.APIKey,
+			Model:          cfg.Model,
+			Interactive:    flagInteractive,
+			Messages:       cfg.Messages.OpenAI(),
+			SystemMessages: cfg.SystemMessages,
 		}
 
 		if cmd.Flag("api-key").Changed {

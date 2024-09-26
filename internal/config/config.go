@@ -9,9 +9,15 @@ import (
 )
 
 type Config struct {
-	APIKey   string   `yaml:"api_key"`
-	Model    string   `yaml:"model"`
-	Messages Messages `yaml:"messages"`
+	APIKey         string                   `yaml:"api_key"`
+	Model          string                   `yaml:"model"`
+	Messages       Messages                 `yaml:"messages"`
+	SystemMessages map[string]SystemMessage `yaml:"system_messages"`
+}
+
+type SystemMessage struct {
+	Content string `yaml:"content"`
+	Usage   string `yaml:"usage"`
 }
 
 type Message struct {
